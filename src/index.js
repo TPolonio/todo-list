@@ -15,6 +15,39 @@ sidebar.classList.add('sidebar');
 const sidebarList = document.createElement('ul');
 sidebarList.classList.add('sidebar-list');
 
+//Create new Task Button:
+
+const newTaskButton = document.createElement('button');
+newTaskButton.classList.add('new-task-button');
+newTaskButton.innerText = 'Create task';
+wrapper.appendChild(newTaskButton);
+
+//Create new Project Button:
+
+const newProjectButton = document.createElement('button');
+newProjectButton.classList.add('new-task-button');
+newProjectButton.innerText = 'Create Project';
+wrapper.appendChild(newProjectButton);
+
+
+//Create main (where current notes go)
+const main = document.createElement('main');
+main.classList.add('main');
+main.innerText = 'Main starts here';
+wrapper.appendChild(main);
+
+
+//Create current Project/All header on main
+
+const currentProjectTitle = document.createElement('h1');
+currentProjectTitle.classList.add('current-project-title');
+currentProjectTitle.innerText = 'current project placeholder';
+main.appendChild(currentProjectTitle)
+
+
+//Create displayed notes section
+
+
 //Create sidebar items
 const navItems = ['All', 'Today', 'Upcoming', 'Important'];
 
@@ -30,6 +63,26 @@ navItems.forEach(navItem => {
 
 sidebar.appendChild(sidebarList);
 wrapper.appendChild(sidebar)
+
+
+//Create Footer
+const footer = document.createElement('footer');
+footer.classList.add('footer');
+footer.innerText = 'Footer starts here';
+wrapper.appendChild(footer);
+
+
+
+//Constructor Function for Notes
+
+function note(title, description, dueDate, priority) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+}
+  //let note = new note("ir compras", 'bananas', 'today', 'important');
+
 
 
 
