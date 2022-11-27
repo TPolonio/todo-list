@@ -38,13 +38,68 @@ newTaskButton.classList.add('new-task-button');
 newTaskButton.innerText = 'Create task';
 main.appendChild(newTaskButton);
 
-//Create new Note popup
+//Create new Todo popup
 
-const newNotePopup = document.createElement('div');
-newNotePopup.classList.add('new-note-popup')
-newNotePopup.innerHTML = 'HI'
+const newTodoPopup = document.createElement('div');
+newTodoPopup.classList.add('new-todo-popup');
+newTodoPopup.innerHTML = 'HI';
 
-main.appendChild(newNotePopup)
+//New Todo Header
+const newTodoHeader = document.createElement('h1');
+newTodoHeader.innerText = 'Create a new To-Do'
+newTodoPopup.appendChild(newTodoHeader)
+
+//New Todo Forms
+
+const newTodoForm = document.createElement('form');
+
+//New To-do Title
+const newTodoTitle = document.createElement('input');
+newTodoTitle.setAttribute('type', 'text');
+newTodoTitle.setAttribute('name', 'New To-Do Title');
+newTodoTitle.setAttribute('placeholder',  'Title: e.g Go to Gym');
+
+
+//New To-do Description
+const newTodoDescription = document.createElement('input');
+newTodoDescription.setAttribute('type', 'text');
+newTodoDescription.setAttribute('name', 'New To-Do ti');
+newTodoDescription.setAttribute('placeholder',  'Description: e.g Monday, Wednesday and Saturday');
+
+//New Todo  Due Date
+const newTodoDueDate = document.createElement('input')
+newTodoDueDate.setAttribute('type', 'date');
+newTodoDueDate.setAttribute('name', 'New To-Do Due Date');
+
+// New Todo Priority
+
+const newTodoPriority = document.createElement('select');
+newTodoPriority.classList.add('new-todo-priority');
+
+const newTodoPriorityLabel = document.createElement("label");
+newTodoPriorityLabel.innerHTML = "Priority";
+let highPriority = document.createElement('option');
+highPriority.value = 'High Priority';
+highPriority.text = 'High';
+newTodoPriority.appendChild(highPriority);
+
+
+let lowPriority = document.createElement('option');
+lowPriority.value = 'Low Priority';
+lowPriority.text = 'Low';
+newTodoPriority.appendChild(lowPriority);
+
+
+
+//Create submit button
+const submitButton = document.createElement("input");
+submitButton.setAttribute("type", "submit");
+submitButton.setAttribute("value", "Submit");
+
+newTodoForm.append(newTodoTitle, newTodoDescription, newTodoPriorityLabel, newTodoPriority, newTodoDueDate, submitButton);
+
+newTodoPopup.appendChild(newTodoForm)
+main.appendChild(newTodoPopup)
 
 
 //Create sidebar items
