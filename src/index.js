@@ -15,20 +15,6 @@ sidebar.classList.add('sidebar');
 const sidebarList = document.createElement('ul');
 sidebarList.classList.add('sidebar-list');
 
-//Create new Task Button:
-
-const newTaskButton = document.createElement('button');
-newTaskButton.classList.add('new-task-button');
-newTaskButton.innerText = 'Create task';
-wrapper.appendChild(newTaskButton);
-
-//Create new Project Button:
-
-const newProjectButton = document.createElement('button');
-newProjectButton.classList.add('new-task-button');
-newProjectButton.innerText = 'Create Project';
-wrapper.appendChild(newProjectButton);
-
 
 //Create main (where current notes go)
 const main = document.createElement('main');
@@ -45,7 +31,20 @@ currentProjectTitle.innerText = 'current project placeholder';
 main.appendChild(currentProjectTitle)
 
 
-//Create displayed notes section
+//Create new Task Button
+
+const newTaskButton = document.createElement('button');
+newTaskButton.classList.add('new-task-button');
+newTaskButton.innerText = 'Create task';
+main.appendChild(newTaskButton);
+
+//Create new Note popup
+
+const newNotePopup = document.createElement('div');
+newNotePopup.classList.add('new-note-popup')
+newNotePopup.innerHTML = 'HI'
+
+main.appendChild(newNotePopup)
 
 
 //Create sidebar items
@@ -61,7 +60,17 @@ navItems.forEach(navItem => {
 });
 
 
+
 sidebar.appendChild(sidebarList);
+
+
+//Create new Project Button:
+
+const newProjectButton = document.createElement('button');
+newProjectButton.classList.add('new-task-button');
+newProjectButton.innerText = 'Create Project';
+sidebar.appendChild(newProjectButton);
+
 wrapper.appendChild(sidebar)
 
 
