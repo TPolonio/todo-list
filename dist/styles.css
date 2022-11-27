@@ -1,0 +1,41 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    position: fixed;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    background-color: aqua;
+}
+
+.header {
+    grid-column: 2 / 8 ;
+    grid-row: 1 / 1;
+    background-color: #7db17d;
+}
+
+.sidebar {
+    grid-column: 1 / 1;
+    grid-row: 1 / 7;
+    background-color: rgb(235, 189, 189);
+}
+
+.main {
+    grid-row: 2 / 8;
+    grid-column: 2 / 8;
+    background-color: yellow;
+}
+
+.new-note-popup {
+    background-color: lightblue;
+}
+
+
+.footer{
+    grid-column: 1 / 1;
+    grid-row: 7/8;
+    background-color: purple;
+}
