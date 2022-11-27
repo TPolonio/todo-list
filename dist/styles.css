@@ -29,8 +29,12 @@
     background-color: yellow;
 }
 
-.new-note-popup {
+.new-todo-popup {
+    display: flex;
+    height: 33vh;
+    width: 66vh;
     background-color: lightblue;
+    border: 2px solid black;
 }
 
 
