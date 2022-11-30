@@ -1,5 +1,4 @@
 const wrapper = document.querySelector('.wrapper');
-const todos = [];
 
 //Create home page
 const header = document.createElement('header');
@@ -29,11 +28,21 @@ currentProjectTitle.innerText = 'current project placeholder';
 main.appendChild(currentProjectTitle)
 
 
-//Create new Task Button
-const newTaskButton = document.createElement('button');
-newTaskButton.classList.add('new-task-button');
-newTaskButton.innerText = 'Create task';
-main.appendChild(newTaskButton);
+//Create new Todo Button
+const newTodoButton = document.createElement('button');
+newTodoButton.classList.add('new-todo-button');
+newTodoButton.innerText = '+';
+main.appendChild(newTodoButton);
+
+//Create Main Todos List
+const todoList = document.createElement('ul');
+todoList.classList.add('todo-list');
+
+const todos = ['Have Lunch', 'Pick up Mom']; //Placeholder
+todos.forEach(todo => {
+  renderMain(todo);
+})
+
 
 //Create new Todo popup
 const newTodoPopup = document.createElement('div');
@@ -53,6 +62,7 @@ newTodoForm.classList.add('new-todo-form');
 const newTodoTitle = document.createElement('input');
 newTodoTitle.classList.add('new-todo-title');
 newTodoTitle.setAttribute('type', 'text');
+newTodoTitle.setAttribute('id', 'new-todo');
 newTodoTitle.setAttribute('name', 'New To-Do Title');
 newTodoTitle.setAttribute('placeholder',  'Title: e.g Go to Gym');
 
@@ -115,17 +125,13 @@ main.appendChild(newTodoPopup)
 
 //Create sidebar items
 const navItems = ['All', 'Today', 'Upcoming', 'Important'];
-
-
-
 navItems.forEach(navItem => {
   renderSidebar(navItem);
 })
 
-
 //Create new Project Button
 const newProjectButton = document.createElement('button');
-newProjectButton.classList.add('new-task-button');
+newProjectButton.classList.add('new-project-button');
 newProjectButton.innerText = 'Create Project';
 sidebar.appendChild(newProjectButton);
 wrapper.appendChild(sidebar)
@@ -193,7 +199,7 @@ wrapper.appendChild(overlay);
 
 //---- Event Listeners Here
 
-newTaskButton.addEventListener('click', () => {
+newTodoButton.addEventListener('click', () => {
   overlay.classList.add('active');
   newTodoPopup.classList.add('active');
 })
@@ -219,11 +225,11 @@ newProjectSubmitButton.addEventListener('click', e => {
   console.log(newProject.value);
   projects.push(newProject.value)
   projects.forEach(project => {
-    addNewProject(project)
-  });;
-
+    addNewProject(project);
+  });
+  overlay.classList.remove('active');
+  newProjectPopup.classList.remove('active');;
 })
-
 
 //new-project
 
@@ -232,6 +238,21 @@ newProjectForm.addEventListener('keypress', e => {
     addNewProject(newProjectName);  
   }
 });
+
+newTodoSubmitButton.addEventListener('click', e => {
+  e.preventDefault();
+  clearTodos();
+  let newTodo = document.querySelector('#new-todo');
+  console.log(newTodo.value);
+  todos.push(newTodo.value)
+  todos.forEach(todo => {
+    addNewTodo(todo);
+  })
+  overlay.classList.remove('active');
+  newTodoPopup.classList.remove('active');;
+})
+
+
 
 //Event Listener End Here
 
@@ -252,9 +273,7 @@ function clearProjects() {
       projectList.removeChild(projectList.firstChild);
     }
   }
-  
 }
-
 
 //Render Sidebar Items
 function renderSidebar(item) {
@@ -267,6 +286,25 @@ function renderSidebar(item) {
   sidebar.appendChild(sidebarList);
 }
 
+//Clear Todos List
+function clearTodos() {
+  if (todoList) {
+    while (todoList.firstChild) {
+      todoList.removeChild(todoList.firstChild);
+    }
+  }
+}
+
+//Render Main Items
+function renderMain(item) {
+  let listItem = document.createElement('li');
+  let a = document.createElement('a');
+  a.textContent = item;
+  a.setAttribute('href',"#");
+  listItem.appendChild(a);
+  todoList.append(listItem);
+  main.appendChild(todoList);
+}
 
 
 //New Project Function
@@ -279,15 +317,12 @@ function addNewProject(name) {
   projectList.append(newProject);
 }
 
-
-
-  
-
-  //let note = new note("ir compras", 'bananas', 'today', 'important');
-
-
-
-
-//to make the button look like normal text 
-//you can use CSS:
-//button.link { background:none; border:none; 
+//New Todo Function
+function addNewTodo(name) {
+  let newTodo = document.createElement('li');
+  let a = document.createElement('a');
+  a.textContent = name;
+  a.setAttribute('href',"#");
+  newTodo.appendChild(a);
+  todoList.append(newTodo);
+}
