@@ -48,6 +48,7 @@
     grid-template-rows: repeat(6, 1fr);
     height: 33vh;
     width: 33vw;
+    min-width: 600px;
 }
 
 .new-project-popup {
@@ -55,6 +56,7 @@
     grid-template-rows: repeat(2, 1fr);
     height: 10vh;
     width: 25vw;
+    min-width: 500px;
 }
 
 .new-todo-popup.active, .new-project-popup.active {
