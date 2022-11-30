@@ -1,4 +1,5 @@
 const wrapper = document.querySelector('.wrapper');
+const todos = [];
 
 //Create home page
 const header = document.createElement('header');
@@ -115,16 +116,11 @@ main.appendChild(newTodoPopup)
 //Create sidebar items
 const navItems = ['All', 'Today', 'Upcoming', 'Important'];
 
-navItems.forEach(navItem => {
-    let listItem = document.createElement('li');
-    let a = document.createElement('a');
-    a.textContent = navItem;
-    a.setAttribute('href',"#");
-    listItem.appendChild(a);
-    sidebarList.appendChild(listItem);
-});
 
-sidebar.appendChild(sidebarList);
+
+navItems.forEach(navItem => {
+  renderSidebar(navItem);
+})
 
 
 //Create new Project Button
@@ -133,6 +129,15 @@ newProjectButton.classList.add('new-task-button');
 newProjectButton.innerText = 'Create Project';
 sidebar.appendChild(newProjectButton);
 wrapper.appendChild(sidebar)
+
+//Create Project List
+const projectList = document.createElement('ul');
+projectList.classList.add('project-list');
+
+const projects = ['Math', 'Gym'];
+
+sidebar.appendChild(projectList);
+
 
 //Create new Project Popup
 const newProjectPopup = document.createElement('div');
@@ -152,8 +157,10 @@ newProjectForm.classList.add('new-project-form');
 const newProjectName = document.createElement('input');
 newProjectName.classList.add('new-project-name');
 newProjectName.setAttribute('type', 'text');
+newProjectName.setAttribute('id', 'new-project');
 newProjectName.setAttribute('name', 'New Project name');
 newProjectName.setAttribute('placeholder',  'Name: e.g Travel');
+newProjectName.setAttribute('required', ''); //CHECK THIS
 
 //Create Project cancel button
 const newProjectCancelButton = document.createElement("button");
@@ -206,15 +213,76 @@ newProjectCancelButton.addEventListener('click', () => {
   newProjectPopup.classList.remove('active');
 })
 
+newProjectSubmitButton.addEventListener('click', e => {
+  clearProjects();
+  let newProject = document.querySelector('#new-project');
+  console.log(newProject.value);
+  projects.push(newProject.value)
+  projects.forEach(project => {
+    addNewProject(project)
+  });;
+
+})
+
+
+//new-project
+
+newProjectForm.addEventListener('keypress', e => {
+  if (e.key === "Enter") {
+    addNewProject(newProjectName);  
+  }
+});
+
+//Event Listener End Here
+
+//Functions Start Here
 
 //Constructor Function for Notes
-
 function note(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
 }
+
+//Clear Projects List
+function clearProjects() {
+  if (projectList) {
+    while (projectList.firstChild) {
+      projectList.removeChild(projectList.firstChild);
+    }
+  }
+  
+}
+
+
+//Render Sidebar Items
+function renderSidebar(item) {
+  let listItem = document.createElement('li');
+  let a = document.createElement('a');
+  a.textContent = item;
+  a.setAttribute('href',"#");
+  listItem.appendChild(a);
+  sidebarList.append(listItem);
+  sidebar.appendChild(sidebarList);
+}
+
+
+
+//New Project Function
+function addNewProject(name) {
+  let newProject = document.createElement('li');
+  let a = document.createElement('a');
+  a.textContent = name;
+  a.setAttribute('href',"#");
+  newProject.appendChild(a);
+  projectList.append(newProject);
+}
+
+
+
+  
+
   //let note = new note("ir compras", 'bananas', 'today', 'important');
 
 
@@ -222,4 +290,4 @@ function note(title, description, dueDate, priority) {
 
 //to make the button look like normal text 
 //you can use CSS:
-//button.link { background:none; border:none; }
+//button.link { background:none; border:none; 
