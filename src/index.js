@@ -20,12 +20,16 @@ main.classList.add('main');
 main.innerText = 'Main starts here';
 wrapper.appendChild(main);
 
+//Create To-Dos Container
+const todoContainer = document.createElement('div');
+todoContainer.classList.add('todo-container');
+main.appendChild(todoContainer);
 
 //Create current Project/All header on main
 const currentProjectTitle = document.createElement('h1');
 currentProjectTitle.classList.add('current-project-title');
 currentProjectTitle.innerText = 'current project placeholder';
-main.appendChild(currentProjectTitle)
+todoContainer.appendChild(currentProjectTitle)
 
 
 //Create new Todo Button
@@ -39,6 +43,7 @@ const todoList = document.createElement('ul');
 todoList.classList.add('todo-list');
 
 const todos = ['Have Lunch', 'Pick up Mom']; //Placeholder
+clearTodos();
 todos.forEach(todo => {
   renderMain(todo);
 })
@@ -128,6 +133,12 @@ navItems.forEach(navItem => {
   renderSidebar(navItem);
 })
 
+//Default to All Todos
+setTimeout(() => {
+  const defaultProject  = document.querySelector('#all');
+  defaultProject.classList.add('active');
+}, 10);
+
 sidebarList.addEventListener('click', e => {
   Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
   if (e.target.tagName.toLowerCase ='li') {
@@ -179,8 +190,8 @@ newProjectName.classList.add('new-project-name');
 newProjectName.setAttribute('type', 'text');
 newProjectName.setAttribute('id', 'new-project');
 newProjectName.setAttribute('name', 'New Project name');
-newProjectName.setAttribute('placeholder',  'Name: e.g Travel');
-newProjectName.setAttribute('required', ''); //CHECK THIS
+newProjectName.setAttribute('placeholder',  'Name: e.g Travel')
+newProjectName.setAttribute('maxLength', 12);
 
 //Create Project cancel button
 const newProjectCancelButton = document.createElement("button");
