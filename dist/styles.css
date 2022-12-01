@@ -22,31 +22,84 @@
     grid-column: 1 / 1;
     grid-row: 1 / 7;
     background-color: steelblue;
+    text-align: center;
     font-weight: bold;
     color: steelblue;
-    padding-top: 50px;
-    padding-left: 20px;
     font-size: 1.5rem;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.sidebar-list, .project-list {
+    display: grid;
+    padding-inline-start: 0%;
+    list-style-type: none;
+
+}
+
+.sidebar-list > li {
+    background-color: white;
+    align-content: center;
+    border: 1px solid steelblue;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.sidebar-list > li > a.active {
+    color: purple;
+}
+
+.sidebar-list > li:hover {
+    border: 1px solid purple;
+    background-color: steelblue;
+}
+
+.sidebar-list > li:hover > a {
+    background-color: steelblue;
+    color: white;
 }
 
 .sidebar-list > li > a {
     text-decoration: none;
-    color: white;
-    padding: 3px;
+    color: steelblue;
 }
-.sidebar-list > li:not(:last-child) {
-    margin-bottom: 8px;
+
+.project-list {
+    position: relative;
+    margin-bottom: 10px;
+}
+.project-list > li {
+    background-color: white;
+    align-content: center;
+    border: 1px solid steelblue;
+    border-radius: 8px;
+    padding: 5px;
 }
 
 .project-list > li > a {
     text-decoration: none;
-    color: white;
-    padding: 3px;
+    color: steelblue;
 }
 
-.project-list >li:not(:last-child) {
-    margin-bottom: 8px;
+.project-list > li > a.active {
+    color: purple;
 }
+
+.project-list > li:hover {
+    border: 1px solid purple;
+    background-color: steelblue;
+}
+
+.project-list > li:hover > a {
+    background-color: steelblue;
+    color: white;
+}
+
+.project-delete-button:hover {
+    color: white;
+    background-color: red;
+}
+
 
 .main {
     position: relative;
@@ -79,14 +132,25 @@
     border-radius: 6px;
     font-size: 1rem;
     font-weight: bold;
-    color:steelblue;
+    color:purple;
     transition-duration: 0.4s;
-    margin-left: 40px;
+    margin-bottom: 10px;
+    
 }
 
 .new-project-button:hover {
     background-color:purple;
     color: white;
+}
+
+.project-delete-button {
+    border: 1px solid steelblue;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: red;
+    transition-duration: 0.4s;
+    margin-bottom: 10px;
 }
 
 .new-todo-popup, .new-project-popup {
@@ -258,4 +322,8 @@
 #overlay.active {
     opacity: 1;
     pointer-events: all;
+}
+
+.hide {
+    display: none;
 }
