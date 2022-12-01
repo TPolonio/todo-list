@@ -43,7 +43,6 @@ todos.forEach(todo => {
   renderMain(todo);
 })
 
-
 //Create new Todo popup
 const newTodoPopup = document.createElement('div');
 newTodoPopup.classList.add('new-todo-popup');
@@ -124,9 +123,23 @@ newTodoPopup.append(newTodoHeader, newTodoForm)
 main.appendChild(newTodoPopup)
 
 //Create sidebar items
-const navItems = ['All', 'Today', 'Upcoming', 'Important'];
+let navItems = ['All', 'Today', 'Upcoming', 'Important'];
 navItems.forEach(navItem => {
   renderSidebar(navItem);
+})
+
+sidebarList.addEventListener('click', e => {
+  Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
+  if (e.target.tagName.toLowerCase ='li') {
+      e.target.classList.add('active');
+  }
+})
+
+sidebarList.addEventListener('click', e => {
+  Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
+  if (e.target.tagName.toLowerCase ='li') {
+      e.target.classList.add('active');
+  }
 })
 
 //Create new Project Button
@@ -136,14 +149,15 @@ newProjectButton.innerText = 'Create Project';
 sidebar.appendChild(newProjectButton);
 wrapper.appendChild(sidebar)
 
+//Create project Delete Button
+const projectDeleteButton = document.createElement('button');
+projectDeleteButton.classList.add('project-delete-button');
+projectDeleteButton.innerText = 'Delete Project';
+sidebar.appendChild(projectDeleteButton)
+
 //Create Project List
 const projectList = document.createElement('ul');
 projectList.classList.add('project-list');
-
-const projects = ['Math', 'Gym'];
-
-sidebar.appendChild(projectList);
-
 
 //Create new Project Popup
 const newProjectPopup = document.createElement('div');
@@ -179,6 +193,18 @@ newProjectSubmitButton.classList.add('new-project-submit-button');
 newProjectSubmitButton.setAttribute("type", "submit");
 newProjectSubmitButton.setAttribute("value", "Add Project");
 
+let projects = ['Math', 'Gym'];
+projects.forEach(project => {
+  renderProjects(project)
+})
+
+projectList.addEventListener('click', e => {
+  Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
+  if (e.target.tagName.toLowerCase ='li') {
+      e.target.classList.add('active');
+  }
+})
+
 newProjectForm.append(newProjectHeader, newProjectName);
 newProjectPopup.append(newProjectForm, newProjectCancelButton, newProjectSubmitButton)
 main.appendChild(newProjectPopup)
@@ -198,6 +224,23 @@ wrapper.appendChild(overlay);
 //----HTML construction ends Here
 
 //---- Event Listeners Here
+
+
+projectDeleteButton.addEventListener('click', () => {
+  let activeProject = document.querySelector('.active');
+  console.log(activeProject.outerText);
+  console.log(projects)
+  projects = projects.filter(function(project) {
+    console.log(project)
+    return project !== activeProject.outerText;
+  })
+  console.log(projects)
+  clearProjects();
+  projects.forEach(project => {
+    renderProjects(project)
+  })
+});
+
 
 newTodoButton.addEventListener('click', () => {
   overlay.classList.add('active');
@@ -222,20 +265,18 @@ newProjectCancelButton.addEventListener('click', () => {
 newProjectSubmitButton.addEventListener('click', e => {
   clearProjects();
   let newProject = document.querySelector('#new-project');
-  console.log(newProject.value);
   projects.push(newProject.value)
   projects.forEach(project => {
-    addNewProject(project);
+    renderProjects(project);
   });
   overlay.classList.remove('active');
   newProjectPopup.classList.remove('active');;
 })
 
-//new-project
 
 newProjectForm.addEventListener('keypress', e => {
   if (e.key === "Enter") {
-    addNewProject(newProjectName);  
+    renderProjects(newProjectName);  
   }
 });
 
@@ -243,7 +284,6 @@ newTodoSubmitButton.addEventListener('click', e => {
   e.preventDefault();
   clearTodos();
   let newTodo = document.querySelector('#new-todo');
-  console.log(newTodo.value);
   todos.push(newTodo.value)
   todos.forEach(todo => {
     addNewTodo(todo);
@@ -252,18 +292,22 @@ newTodoSubmitButton.addEventListener('click', e => {
   newTodoPopup.classList.remove('active');;
 })
 
-
-
 //Event Listener End Here
 
 //Functions Start Here
 
 //Constructor Function for Notes
-function note(title, description, dueDate, priority) {
+function createTodo(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
+}
+
+function createProject(name) {
+    this.name = name;
+    this.todos = [];
+  
 }
 
 //Clear Projects List
@@ -280,10 +324,23 @@ function renderSidebar(item) {
   let listItem = document.createElement('li');
   let a = document.createElement('a');
   a.textContent = item;
+  a.id = (item.toLowerCase());
   a.setAttribute('href',"#");
   listItem.appendChild(a);
   sidebarList.append(listItem);
   sidebar.appendChild(sidebarList);
+}
+
+
+//Render project items
+function renderProjects(name) {
+  let newProject = document.createElement('li');
+  let a = document.createElement('a');
+  a.textContent = name;
+  a.setAttribute('href',"#");
+  newProject.appendChild(a);
+  projectList.append(newProject);
+  sidebar.appendChild(projectList);
 }
 
 //Clear Todos List
@@ -304,17 +361,6 @@ function renderMain(item) {
   listItem.appendChild(a);
   todoList.append(listItem);
   main.appendChild(todoList);
-}
-
-
-//New Project Function
-function addNewProject(name) {
-  let newProject = document.createElement('li');
-  let a = document.createElement('a');
-  a.textContent = name;
-  a.setAttribute('href',"#");
-  newProject.appendChild(a);
-  projectList.append(newProject);
 }
 
 //New Todo Function
