@@ -9,10 +9,8 @@ wrapper.appendChild(header);
 //Create Sidebar
 const sidebar = document.createElement('nav');
 sidebar.classList.add('sidebar');
-
 const sidebarList = document.createElement('ul');
 sidebarList.classList.add('sidebar-list');
-
 
 //Create main (where current notes go)
 const main = document.createElement('main');
@@ -37,14 +35,9 @@ newTodoButton.innerText = '+';
 main.appendChild(newTodoButton);
 
 //Create Main Todos List
-const todoList = document.createElement('ul');
+const todoList = document.createElement('div');
 todoList.classList.add('todo-list');
-
-const todos = ['Have Lunch', 'Pick up Mom']; //Placeholder
-clearTodos();
-todos.forEach(todo => {
-  renderMain(todo);
-})
+main.appendChild(todoList);
 
 //Create new Todo popup
 const newTodoPopup = document.createElement('div');
@@ -141,15 +134,10 @@ sidebarList.addEventListener('click', e => {
   Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
   if (e.target.tagName.toLowerCase ='li') {
       e.target.classList.add('active');
+      renderProjectHeader();
   }
 })
 
-sidebarList.addEventListener('click', e => {
-  Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
-  if (e.target.tagName.toLowerCase ='li') {
-      e.target.classList.add('active');
-  }
-})
 
 //Create new Project Button
 const newProjectButton = document.createElement('button');
@@ -211,6 +199,7 @@ projectList.addEventListener('click', e => {
   Array.from(document.querySelectorAll('a.active')).forEach(li => li.classList.remove('active'));
   if (e.target.tagName.toLowerCase ='li') {
       e.target.classList.add('active');
+      renderProjectHeader();
   }
 })
 
@@ -290,12 +279,56 @@ newProjectSubmitButton.addEventListener('click', e => {
   todos.forEach(todo => {
     addNewTodo(todo);
   })
-  newTodoForm.addEventListener
+
 
   overlay.classList.remove('active');
   newTodoPopup.classList.remove('active');;
 })
 */
+newTodoForm.addEventListener('submit', e => {
+  e.preventDefault();
+  let newTodo = new todo(
+    newTodoTitle.value,
+    newTodoDescription.value,
+    newTodoDueDate.value,
+    newTodoPriority.value);
+  
+  overlay.classList.remove('active');
+  newTodoPopup.classList.remove('active');
+
+  const newTodoContainer = document.createElement('div')
+  newTodoContainer.classList.add('todo-container');
+
+  const newTodoDiv = document.createElement('div');
+  newTodoDiv.classList.add('todo-item')
+
+  const colapsibleDescription = document.createElement('div');
+  colapsibleDescription.classList.add('colapsible');
+
+  newTodoDiv.append(newTodo.title, newTodo.dueDate, newTodo.priority);
+  colapsibleDescription.append(newTodo.description);
+
+  newTodoContainer.append(newTodoDiv,colapsibleDescription)
+
+  createExpandButton();
+  createDeleteButton();
+
+  const expandButton = document.querySelector('.expand-button')
+  const todoDeleteButton = document.querySelector('.todo-delete-button')
+  
+  todoList.append(newTodoContainer);
+
+  
+  setTimeout(() => {
+    todoDeleteButton.addEventListener('click', e => {
+      todoList.removeChild(newTodoContainer)
+      todoDeleteButton.style.display = 'none'
+      expandButton.style.display = 'none'
+    })
+  }, 100);
+
+  
+})
 
 //Event Listener End Here
 
@@ -368,25 +401,6 @@ function renderMain(item) {
   main.appendChild(todoList);
 }
 
-newTodoForm.addEventListener('submit', e => {
-  e.preventDefault()
-  let newTodo = new todo(
-    newTodoTitle.value,
-    newTodoDescription.value, 
-    newTodoDueDate.value, 
-    newTodoPriority.value);
-    let objects = [{firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"}];
-    objects.push(newTodo)
-    console.log(objects)
-    
-    /*todos.push(newTodo)
-    todos.forEach(todo => {
-    addNewTodo(todo);
-  })*/
-    overlay.classList.remove('active');
-    newTodoPopup.classList.remove('active');
-});
-
 
 
 //New Todo Function
@@ -405,3 +419,19 @@ function renderProjectHeader() {
   currentProjectTitle.classList.add('current-project-title');
   todoContainer.appendChild(currentProjectTitle)
   }
+
+function createExpandButton() {
+  const expandButton = document.createElement('button');
+  expandButton.classList.add('expand-button')
+  expandButton.innerText = 'Details'
+  const newTodoContainer= document.querySelector('.todo-container')
+  newTodoContainer.append(expandButton)
+}
+
+function createDeleteButton() {
+  const todoDeleteButton = document.createElement('button');
+  todoDeleteButton.classList.add('todo-delete-button')
+  todoDeleteButton.innerText = 'Delete'
+  const newTodoContainer= document.querySelector('.todo-container')
+  newTodoContainer.append(todoDeleteButton)
+}
