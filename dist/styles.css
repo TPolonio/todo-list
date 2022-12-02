@@ -108,6 +108,29 @@
     background-color: yellow;
 }
 
+.todo-list {
+    display:grid;
+    background-color: white;
+    color: green;
+    height: 100px;
+    width: 400px;
+}
+
+.expand-button {
+    background-color:lightgreen;
+}
+
+.todo-delete-button {
+    background-color: red;
+}
+
+.colapsible {
+    padding: 0 18px;
+    display: block;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
 .new-todo-button {
     position: absolute;
     top: 5%;
