@@ -17,20 +17,18 @@ sidebarList.classList.add('sidebar-list');
 //Create main (where current notes go)
 const main = document.createElement('main');
 main.classList.add('main');
-main.innerText = 'Main starts here';
 wrapper.appendChild(main);
+
+//Create current Project/All header on main
+const currentProjectTitle = document.createElement('h1');
+setTimeout(() => {
+  renderProjectHeader();
+}, 100);
 
 //Create To-Dos Container
 const todoContainer = document.createElement('div');
 todoContainer.classList.add('todo-container');
 main.appendChild(todoContainer);
-
-//Create current Project/All header on main
-const currentProjectTitle = document.createElement('h1');
-currentProjectTitle.classList.add('current-project-title');
-currentProjectTitle.innerText = 'current project placeholder';
-todoContainer.appendChild(currentProjectTitle)
-
 
 //Create new Todo Button
 const newTodoButton = document.createElement('button');
@@ -284,14 +282,7 @@ newProjectSubmitButton.addEventListener('click', e => {
   newProjectPopup.classList.remove('active');;
 })
 
-
-newProjectForm.addEventListener('keypress', e => {
-  if (e.key === "Enter") {
-    renderProjects(newProjectName);  
-  }
-});
-
-newTodoSubmitButton.addEventListener('click', e => {
+/*newTodoSubmitButton.addEventListener('click', e => {
   e.preventDefault();
   clearTodos();
   let newTodo = document.querySelector('#new-todo');
@@ -299,23 +290,26 @@ newTodoSubmitButton.addEventListener('click', e => {
   todos.forEach(todo => {
     addNewTodo(todo);
   })
+  newTodoForm.addEventListener
+
   overlay.classList.remove('active');
   newTodoPopup.classList.remove('active');;
 })
+*/
 
 //Event Listener End Here
 
 //Functions Start Here
 
 //Constructor Function for Notes
-function createTodo(title, description, dueDate, priority) {
+function todo(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
 }
 
-function createProject(name) {
+function project(name) {
     this.name = name;
     this.todos = [];
   
@@ -374,12 +368,40 @@ function renderMain(item) {
   main.appendChild(todoList);
 }
 
+newTodoForm.addEventListener('submit', e => {
+  e.preventDefault()
+  let newTodo = new todo(
+    newTodoTitle.value,
+    newTodoDescription.value, 
+    newTodoDueDate.value, 
+    newTodoPriority.value);
+    let objects = [{firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"}];
+    objects.push(newTodo)
+    console.log(objects)
+    
+    /*todos.push(newTodo)
+    todos.forEach(todo => {
+    addNewTodo(todo);
+  })*/
+    overlay.classList.remove('active');
+    newTodoPopup.classList.remove('active');
+});
+
+
+
 //New Todo Function
 function addNewTodo(name) {
-  let newTodo = document.createElement('li');
+  let newTodoLi = document.createElement('li');
   let a = document.createElement('a');
   a.textContent = name;
   a.setAttribute('href',"#");
-  newTodo.appendChild(a);
+  newTodoLi.appendChild(a);
   todoList.append(newTodo);
 }
+
+
+function renderProjectHeader() {
+  currentProjectTitle.innerText = document.querySelector('.active').innerText;
+  currentProjectTitle.classList.add('current-project-title');
+  todoContainer.appendChild(currentProjectTitle)
+  }
