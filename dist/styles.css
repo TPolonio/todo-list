@@ -13,9 +13,15 @@
 }
 
 .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-column: 2 / 8 ;
     grid-row: 1 / 1;
-    background-color: #7db17d;
+    background-color: steelblue;
+    color:lightsteelblue;
+    font-size: 3rem;
+    font-weight: 900;
 }
 
 .sidebar {
@@ -100,35 +106,73 @@
     background-color: red;
 }
 
-
+ 
 .main {
     position: relative;
     grid-row: 2 / 8;
     grid-column: 2 / 8;
-    background-color: yellow;
+    background-color: lightsteelblue;
+    font-size: 1.3rem;
 }
-
+.current-project-title{
+    padding-left: 40px;
+    color: white;
+}
 .todo-list {
     display:grid;
-    background-color: white;
-    color: green;
-    height: 100px;
-    width: 400px;
+    background-color: lightsteelblue;
+    color: steelblue;
+    height: 100vh;
+    width: 70vw;
 }
 
-.expand-button {
-    background-color:lightgreen;
+.todo-container {
+    list-style:none;
+}
+.todo-item {
+    position: relative;
+}
+
+.todo-div {
+    position: relative;
+    display: flex;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    height: 2vh;
+}
+
+.todo-title-div {
+    position: absolute;
+    left: 2%;
+    font-weight: bold;
+    padding-right: 10%;
+}
+.todo-priority-div {
+    position: absolute;
+    left: 60%
+}
+
+.todo-priority-div.high-priority {
+     color: red
+}
+
+.todo-priority-div.low-priority {
+    color:lightseagreen
+}
+
+.todo-due-date-div {
+    position: absolute;
+    left:85%;
+    color: grey;
 }
 
 .todo-delete-button {
+    position: absolute;
+    bottom: 28%;
+    left: 93%;
     background-color: red;
-}
-
-.colapsible {
-    padding: 0 18px;
-    display: block;
-    overflow: hidden;
-    background-color: #f1f1f1;
 }
 
 .new-todo-button {
@@ -192,8 +236,8 @@
 .new-todo-popup {
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(6, 1fr);
-    height: 33vh;
-    width: 33vw;
+    height: 25vh;
+    width: 25vw;
     min-width: 600px;
 }
 
@@ -260,12 +304,6 @@
     grid-row: 1 / 1;
 }
 
-.new-todo-description {
-    grid-row: 2 / 5;
-    padding-left: 10px;
-    border: 0;
-}
-
 .new-todo-duedate-container {
     grid-row: 8 / 8;
     padding-left: 10px;
@@ -325,9 +363,14 @@
 
 
 .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     grid-column: 1 / 1;
     grid-row: 7 / 8;
-    background-color: purple;
+    background-color: steelblue;
+    color: wheat;
+    font-size: 1.5rem;
 }
 
 #overlay {
