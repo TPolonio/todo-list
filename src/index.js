@@ -1,4 +1,5 @@
 const wrapper = document.querySelector('.wrapper');
+const totalTodos = [];
 
 //Create home page
 const header = document.createElement('header');
@@ -25,7 +26,7 @@ setTimeout(() => {
 
 //Create To-Dos Container
 const todoContainer = document.createElement('div');
-todoContainer.classList.add('todo-container');
+todoContainer.classList.add('todo-main-container');
 main.appendChild(todoContainer);
 
 //Create new Todo Button
@@ -60,13 +61,6 @@ newTodoTitle.setAttribute('type', 'text');
 newTodoTitle.setAttribute('id', 'new-todo');
 newTodoTitle.setAttribute('name', 'New To-Do Title');
 newTodoTitle.setAttribute('placeholder',  'Title: e.g Go to Gym');
-
-//New To-do Description
-const newTodoDescription = document.createElement('input');
-newTodoDescription.classList.add('new-todo-description')
-newTodoDescription.setAttribute('type', 'text');
-newTodoDescription.setAttribute('name', 'New To-Do Description');
-newTodoDescription.setAttribute('placeholder',  'Description: e.g Monday, Wednesday and Saturday');
 
 //New Todo Due Date
 const newTodoDueDateLabel = document.createElement("label");
@@ -114,7 +108,7 @@ const newTodoPriorityContainer = document.createElement('div');
 newTodoPriorityContainer.classList.add('new-todo-priority-container');
 newTodoPriorityContainer.append(newTodoPriorityLabel, newTodoPriority)
 
-newTodoForm.append(newTodoTitle, newTodoDescription, newTodoDueDateContainer, newTodoPriorityContainer, newTodoCancelButton, newTodoSubmitButton);
+newTodoForm.append(newTodoTitle, newTodoDueDateContainer, newTodoPriorityContainer, newTodoCancelButton, newTodoSubmitButton);
 newTodoPopup.append(newTodoHeader, newTodoForm)
 main.appendChild(newTodoPopup)
 
@@ -190,7 +184,7 @@ newProjectSubmitButton.classList.add('new-project-submit-button');
 newProjectSubmitButton.setAttribute("type", "submit");
 newProjectSubmitButton.setAttribute("value", "Add Project");
 
-let projects = ['Math', 'Gym'];
+let projects = [];
 projects.forEach(project => {
   renderProjects(project)
 })
@@ -211,7 +205,7 @@ main.appendChild(newProjectPopup)
 //Create Footer
 const footer = document.createElement('footer');
 footer.classList.add('footer');
-footer.innerText = 'Footer starts here';
+footer.innerText = 'Tiago Polónio';
 wrapper.appendChild(footer);
 
 //Create Overlay for Popup
@@ -285,49 +279,85 @@ newProjectSubmitButton.addEventListener('click', e => {
   newTodoPopup.classList.remove('active');;
 })
 */
+
+const newTodoContainer = document.createElement('ul');
+  newTodoContainer.classList.add('todo-container');
+
 newTodoForm.addEventListener('submit', e => {
   e.preventDefault();
   let newTodo = new todo(
     newTodoTitle.value,
-    newTodoDescription.value,
     newTodoDueDate.value,
     newTodoPriority.value);
   
   overlay.classList.remove('active');
   newTodoPopup.classList.remove('active');
 
-  const newTodoContainer = document.createElement('div')
-  newTodoContainer.classList.add('todo-container');
+  const newTodoLi = document.createElement('li');
+  newTodoLi.classList.add('todo-item');
 
   const newTodoDiv = document.createElement('div');
-  newTodoDiv.classList.add('todo-item')
+  newTodoDiv.classList.add('todo-div');
 
-  const colapsibleDescription = document.createElement('div');
-  colapsibleDescription.classList.add('colapsible');
+  const newTodoTitleDiv = document.createElement('div');
+  newTodoTitleDiv.classList.add('todo-title-div');
+  newTodoTitleDiv.append(newTodo.title);
 
-  newTodoDiv.append(newTodo.title, newTodo.dueDate, newTodo.priority);
-  colapsibleDescription.append(newTodo.description);
+  const newTodoDueDateDiv = document.createElement('div');
+  newTodoDueDateDiv.classList.add('todo-due-date-div');
+  newTodoDueDateDiv.append(newTodo.dueDate);
 
-  newTodoContainer.append(newTodoDiv,colapsibleDescription)
+  const newTodoPriorityDiv = document.createElement('div');
+  newTodoPriorityDiv.classList.add('todo-priority-div');
+  if (newTodoPriority.value == 'High Priority') {
+    newTodoPriorityDiv.classList.add('high-priority');
+  }
+  if (newTodoPriority.value == 'Low Priority') {
+    newTodoPriorityDiv.classList.add('low-priority');
+  }
+  newTodoPriorityDiv.append(newTodo.priority);
 
-  createExpandButton();
-  createDeleteButton();
+  newTodoDiv.append(newTodoTitleDiv, newTodoDueDateDiv, newTodoPriorityDiv);
 
-  const expandButton = document.querySelector('.expand-button')
-  const todoDeleteButton = document.querySelector('.todo-delete-button')
+  newTodoLi.append(newTodoDiv);
+
+  //Assign project
+  
+  const currentProject =  document.querySelector('.active');
+  console.log(currentProject)
+
+  newTodoTitleDiv.classList.add(currentProject.id)
+
+  totalTodos.push(newTodo);
+  console.log(totalTodos);
+
+
+  
+  //Add class of current Project
+  const activeList = document.querySelector('.active')
+
+
+  const todoDeleteButton = document.createElement('button');
+  todoDeleteButton.classList.add('todo-delete-button')
+  todoDeleteButton.innerText = 'Delete'
+
+  newTodoDiv.appendChild(todoDeleteButton);
+
+  newTodoContainer.classList.add(activeList.id);
+  newTodoContainer.append(newTodoLi);
   
   todoList.append(newTodoContainer);
 
   
   setTimeout(() => {
     todoDeleteButton.addEventListener('click', e => {
-      todoList.removeChild(newTodoContainer)
-      todoDeleteButton.style.display = 'none'
-      expandButton.style.display = 'none'
+      const target = e.currentTarget;
+      console.log(target.parentNode);
+      target.parentNode.remove();
+      //todoDeleteButton.style.display = 'none'
+      //expandButton.style.display = 'none'
     })
-  }, 100);
-
-  
+  }, 100);  
 })
 
 //Event Listener End Here
@@ -335,17 +365,10 @@ newTodoForm.addEventListener('submit', e => {
 //Functions Start Here
 
 //Constructor Function for Notes
-function todo(title, description, dueDate, priority) {
+function todo(title, dueDate, priority) {
     this.title = title;
-    this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
-}
-
-function project(name) {
-    this.name = name;
-    this.todos = [];
-  
 }
 
 //Clear Projects List
@@ -376,6 +399,7 @@ function renderProjects(name) {
   let a = document.createElement('a');
   a.textContent = name;
   a.setAttribute('href',"#");
+  a.setAttribute('id', name)
   newProject.appendChild(a);
   projectList.append(newProject);
   sidebar.appendChild(projectList);
@@ -420,18 +444,3 @@ function renderProjectHeader() {
   todoContainer.appendChild(currentProjectTitle)
   }
 
-function createExpandButton() {
-  const expandButton = document.createElement('button');
-  expandButton.classList.add('expand-button')
-  expandButton.innerText = 'Details'
-  const newTodoContainer= document.querySelector('.todo-container')
-  newTodoContainer.append(expandButton)
-}
-
-function createDeleteButton() {
-  const todoDeleteButton = document.createElement('button');
-  todoDeleteButton.classList.add('todo-delete-button')
-  todoDeleteButton.innerText = 'Delete'
-  const newTodoContainer= document.querySelector('.todo-container')
-  newTodoContainer.append(todoDeleteButton)
-}
